@@ -1172,7 +1172,7 @@ def load_json_data(root='itl_data', jit=False):
     return tourney
 
 
-def process(src='itl2023', force_recalculate_spice: bool = False):
+def process(src='itl2024', force_recalculate_spice: bool = False):
     src = src.lower()
     scrape_designator = ''
     tourney_fn = None
@@ -1191,6 +1191,12 @@ def process(src='itl2023', force_recalculate_spice: bool = False):
         latest_itl2023 = sorted([d for d in os.listdir('itl2023_data') if re.match('^\d+$', d)])[-1]
         scrape_designator = '_' + latest_itl2023
         root = os.path.join('itl2023_data', latest_itl2023)
+    elif src == 'itl2024':
+        # Personally scraped
+        jit = False
+        latest_itl2024 = sorted([d for d in os.listdir('itl2024_data') if re.match('^\d+$', d)])[-1]
+        scrape_designator = '_' + latest_itl2024
+        root = os.path.join('itl2024_data', latest_itl2024)
     elif src == '3ic':
         # Privately provided
         jit = True
@@ -1275,5 +1281,5 @@ def process(src='itl2023', force_recalculate_spice: bool = False):
 
 
 if __name__ == '__main__':
-    process(src='itl2022', force_recalculate_spice=False)
+    process(src='itl2024', force_recalculate_spice=False)
     
