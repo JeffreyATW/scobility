@@ -30,7 +30,7 @@ def setup_scrape() -> str:
 
     return path_dst
 
-def scrape_charts(path_dst: str):
+def scrape_charts(path_dst: str, playstyle: int = 1):
     # Chart enumeration query
     charts = {}
     strikes = []
@@ -48,9 +48,11 @@ def scrape_charts(path_dst: str):
                 break
         else:
             strikes = []
-            charts[i] = j.get('data', {})
-            full_name = f"{charts[i].get('artist')} - \"{charts[i].get('title')}\""
-            logging.info(f'{i:4d}: {full_name}')
+            data = j.get('data', {})
+            if data.get('playstyle') == playstyle:
+                charts[i] = data
+                full_name = f"{data.get('artist')} - \"{data.get('title')}\""
+                logging.info(f'{i:4d}: {full_name}')
 
     with open(os.path.join(path_dst, 'charts.json'), 'w', encoding='utf-8') as fp:
         json.dump(charts, fp)
